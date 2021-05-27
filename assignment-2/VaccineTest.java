@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class VaccineTest {
 
     public static void main(String[] args) {
-        int userInput = 0;
+        int userInput;
         Scanner reader = new Scanner(System.in);
 
         boolean valid = false;
@@ -12,11 +12,12 @@ public class VaccineTest {
         
         do {      
             try {
-        
                 System.out.println("Enter a number:");
                 userInput = reader.nextInt();
+                
         
-                System.out.println("Good input");
+
+
                 valid = true;
             }
             catch (InputMismatchException exception) {
@@ -25,7 +26,6 @@ public class VaccineTest {
             }
         }
         while (!valid);
-        
-        System.out.println("Out of the loop.");
+        System.out.println("Thank you for using this program.");        
     }
 }
