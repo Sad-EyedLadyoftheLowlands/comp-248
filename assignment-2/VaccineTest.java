@@ -38,7 +38,6 @@ public class VaccineTest {
         /*
         Handle final formatting.
         */
-        // if (userInputs[0] == 1) { 
         System.out.println(vacTypeDose[userInputs[0]][0] + vacTypeDose[userInputs[0]][1] + vacTypeDose[userInputs[0]][2]);
         
         System.out.println("Thank you for using this program.");        
