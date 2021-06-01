@@ -13,7 +13,12 @@ public class Vaccine {
         this.doses = doses;
     }
 
-    public void printName() {
-        System.out.println(this.name);
+    public void printFormattedName() {
+        System.out.println(this.id + " - " + this.name);
+    }
+
+    public void printBasicInformation() {
+        String doseString = (this.doses == 1) ? "dose" : "doses";
+        System.out.println(this.name + " (" + this.type + ", " + this.doses + " " + doseString + ").");
     }
 }
