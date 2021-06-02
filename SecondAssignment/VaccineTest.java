@@ -1,7 +1,5 @@
-// package SecondAssignment;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-// import assignment2
 
 public class VaccineTest {
 

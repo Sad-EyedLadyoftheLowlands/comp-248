@@ -1,5 +1,3 @@
-// package SecondAssignment;
-
 public class Vaccine {
     private int id;
     private String name;
