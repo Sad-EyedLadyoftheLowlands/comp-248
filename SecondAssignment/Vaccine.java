@@ -1,4 +1,5 @@
 public class Vaccine {
+    
     private int id;
     private String name;
     private String type;
@@ -12,11 +13,20 @@ public class Vaccine {
     }
 
     public void printFormattedName() {
-        System.out.println(this.id + " - " + this.name);
+        System.out.println("\t" + this.id + " - " + this.name);
     }
 
     public void printBasicInformation() {
         String doseString = (this.doses == 1) ? "dose" : "doses";
         System.out.println(this.name + " (" + this.type + ", " + this.doses + " " + doseString + ").");
+    }
+
+    // Only 4 vaccines are available in Canada.
+    public boolean isAvailableInCanada() {
+        return (this.id > 4) ? false : true;
+    }
+
+    public void printUnavailableMessage() {
+        System.out.println("\nUnfortunately the " + this.name + " vaccine is unavailable in your region.");
     }
 }

@@ -1,9 +1,22 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+// ------------------------------------------------------------
+// Assignment: 2
+// Written by: Dylan Baird (40046289)
+// For COMP 248 Section (EC 2211) - Summer 2021
+// ------------------------------------------------------------
+
+/*
+One thing to do is set valid to true, add an error message to the do part, and set valid to false
+in the catch, and the break/continue statements. How else do we have an error message on exception
+throwing input?
+*/
+
 public class VaccineTest {
 
     public static void main(String[] args) {
+
         boolean valid = false;
         int[] userInputs = new int[3];
         Scanner reader = new Scanner(System.in);
@@ -17,77 +30,141 @@ public class VaccineTest {
         VACCINES[5] = new Vaccine(6, "Gameleya", "Viral vector", 2);
 
         final String[] LOCATIONS = { "Pharmaprix", "Vaccination Center", "PJC Jean Coutu", "Health Center", "Uniprix Clinique" };
-        
+
         final String[] AVAILABLE_TIMES = { "2:00-2:15", "2:20-2:35", "2:40-2:55", "3:00-3:15" };
-                
-        do {      
+
+        final String FORMATTED_PROMPT = "\nEnter a number corresponding to your choice: ";
+
+        do {
             try {
+                // Print prompt, formatted name of each vaccine, and quit option.
                 System.out.println("Please choose from the following vaccines: ");
-                for (int i = 0; i < VACCINES.length - 1; i++) { VACCINES[i].printFormattedName(); }
-        
-                System.out.println("Enter a number:");
+                for (int i = 0; i < VACCINES.length; i++) {
+                    VACCINES[i].printFormattedName();
+                }
+                printFormattedQuitOption(VACCINES.length + 1);
+
+                // Prompt and storage of vaccine choice.
+                System.out.print(FORMATTED_PROMPT);
                 userInputs[0] = reader.nextInt();
-        
-                // Quit, not available, and invalid entry handling.
-                if (userInputs[0] == VACCINES.length) { break; }
-                if (userInputs[0] < 1 || userInputs[0] > VACCINES.length) { continue; }
-                if (userInputs[0] == 5 || userInputs[0] == 6) {
-                    System.out.println("Not available. Shouldn't have been included.");
+
+                // ***** ERROR HANDLING - VACCINE *****
+
+                // Quit.
+                if (userInputs[0] == VACCINES.length + 1) {
                     break;
                 }
-        
-                // I fucked up the break and continue???
-                System.out.println("Please choose a location:");
-                
+
+                // Invalid.
+                if (userInputs[0] < 1 || userInputs[0] > VACCINES.length + 1) {
+                    continue;
+                }
+
+                // Check availability and reject with message if false.
+                if (!VACCINES[userInputs[0] - 1].isAvailableInCanada()) {
+                    VACCINES[userInputs[0] - 1].printUnavailableMessage();
+                    break;
+                }
+
+                // ***** END OF ERROR HANDLING *****
+
+                System.out.println("\nPlease choose a location: ");
+
+                int locationsAvailable = 0;
+
+                // Print locations available depending on vaccine choice and quit message.
                 switch (userInputs[0]) {
                     case 1, 2:
-                        System.out.println(LOCATIONS[0] + LOCATIONS[1]);
+                        System.out.println("\t" + "1 - " + LOCATIONS[0]);
+                        System.out.println("\t" + "2 - " + LOCATIONS[1]);
+                        locationsAvailable += 2;
                         break;
                     case 3:
-                        System.out.println(LOCATIONS[2] + LOCATIONS[4]);
+                        System.out.println("\t" + "1 - " + LOCATIONS[2]);
+                        System.out.println("\t" + "2 - " + LOCATIONS[4]);
+                        locationsAvailable += 2;
                         break;
                     case 4:
-                        System.out.println(LOCATIONS[3]);
+                        System.out.println("\t" + "1 - " + LOCATIONS[3]);
+                        locationsAvailable++;
                         break;
                     // Shouldn't be necessary. All cases are handled.
                     default:
                         break;
                 }
+                printFormattedQuitOption(locationsAvailable + 1);
 
+                // Prompt and storage of location choice.
+                System.out.print(FORMATTED_PROMPT);
                 userInputs[1] = reader.nextInt();
 
-                // Handle quit and invalid like above. I presume good input (we've already handled edge cases).
-                // Maybe fit the nested if in here?
+                // ***** ERROR HANDLING - LOCATION*****
 
-                System.out.println("Please choose a time:");
-
-                if (userInputs[1] >= 0 && userInputs[1] < VACCINES.length -2) {
-                    for (int i = 1; i <= AVAILABLE_TIMES.length; i++) { System.out.println(i + " - " + AVAILABLE_TIMES[i - 1]); }
+                // Quit.
+                if (userInputs[1] == locationsAvailable + 1) {
+                    break;
                 }
 
+                // Invalid.
+                if (userInputs[1] < 1 || userInputs[1] > locationsAvailable + 1) {
+                    continue;
+                }
+
+                // ***** END OF ERROR HANDLING *****
+
+                // Display of available times and quit message.
+                System.out.println("\nPlease choose a time:");
+                if (userInputs[1] >= 0 && userInputs[1] < VACCINES.length - 2) {
+                    for (int i = 1; i <= AVAILABLE_TIMES.length; i++) {
+                        System.out.println("\t" + i + " - " + AVAILABLE_TIMES[i - 1]);
+                    }
+                }
+                printFormattedQuitOption(AVAILABLE_TIMES.length + 1);
+
+                // Prompt and storage of schedule choice.
+                System.out.print(FORMATTED_PROMPT);
                 userInputs[2] = reader.nextInt();
 
-                // Error handling again.
+                // ***** ERROR HANDLING - SCHEDULE *****
 
+                // Quit.
+                if (userInputs[2] == AVAILABLE_TIMES.length + 1) {
+                    break;
+                }
+
+                // Invalid.
+                if (userInputs[2] < 1 || userInputs[2] > AVAILABLE_TIMES.length + 2) {
+                    continue;
+                }
+
+                // ***** END OF ERROR HANDLING *****
+
+                // If all goes well, user choices are valid and we can display final output.
                 valid = true;
-            }
-            catch (InputMismatchException exception) {
-                System.out.println("Please enter a number.");
+            } catch (InputMismatchException exception) {
+                System.out.println("\nPlease try again and ensure you enter a number.\n");
                 reader.nextLine();
             }
-        }
-        while (!valid);
-        
-        /*
-        Handle final formatting.
-        If valid
-        */
+        } while (!valid);
 
+        // Clean-up.
+        reader.close();
+
+        // Final formatting if valid.
         if (valid) {
+            // Print vaccine information.
+            System.out.print("\nThe booked vaccine is: ");
             VACCINES[userInputs[0] - 1].printBasicInformation();
-            System.out.println("Your schedule is: " + AVAILABLE_TIMES[userInputs[1]] + " @ " + LOCATIONS[userInputs[2]] + ".");
+
+            // Print schedule information.
+            System.out.println("Your schedule is: " + AVAILABLE_TIMES[userInputs[2] - 1] + " @ " + LOCATIONS[userInputs[1]] + ".");
         }
 
-        System.out.println("Thank you for using this program.");        
+        // Closing message. Prints when execution finishes or when user quits.
+        System.out.println("\nThank you for using this program!");
+    }
+    
+    public static void printFormattedQuitOption(int number) {
+        System.out.println("\t" + number + " - Quit");
     }
 }
