@@ -8,12 +8,14 @@ import java.util.Scanner;
 // ------------------------------------------------------------
 
 /*
-One thing to do is set valid to true, add an error message to the do part, and set valid to false
-in the catch, and the break/continue statements. How else do we have an error message on exception
-throwing input?
+Simple program for scheduling an appointment to be vaccinated. 
+The relevant data is stored in arrays of strings and vaccine objects for ease of formatted printing
+and to make it easy to add data in the future (if that were to be necessary). Error handling is dealt 
+with in two primary ways: incorrect type (string instead of int) is handled with a try/catch which displays 
+a message and restarts the loop, whereas incorrect int input simply restarts the loop.
 */
 
-public class VaccineTest {
+public class VaccineScheduler {
 
     public static void main(String[] args) {
 
@@ -163,8 +165,47 @@ public class VaccineTest {
         // Closing message. Prints when execution finishes or when user quits.
         System.out.println("\nThank you for using this program!");
     }
-    
+
+    /*
+    Method for consistent display of quit option after each prompt.
+    */
     public static void printFormattedQuitOption(int number) {
         System.out.println("\t" + number + " - Quit");
+    }
+}
+
+/*
+Streamlines vaccine data type and provides printing functions for consistent display of information.
+*/
+class Vaccine {
+    
+    private int id;
+    private String name;
+    private String type;
+    private int doses;
+
+    public Vaccine(int id, String name, String type, int doses) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.doses = doses;
+    }
+
+    public void printFormattedName() {
+        System.out.println("\t" + this.id + " - " + this.name);
+    }
+
+    public void printBasicInformation() {
+        String doseString = (this.doses == 1) ? "dose" : "doses";
+        System.out.println(this.name + " (" + this.type + ", " + this.doses + " " + doseString + ").");
+    }
+
+    // Only 4 vaccines are available in Canada.
+    public boolean isAvailableInCanada() {
+        return (this.id > 4) ? false : true;
+    }
+
+    public void printUnavailableMessage() {
+        System.out.println("\nUnfortunately the " + this.name + " vaccine is unavailable in your region.");
     }
 }
