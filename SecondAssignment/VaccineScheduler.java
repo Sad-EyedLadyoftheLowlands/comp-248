@@ -51,16 +51,36 @@ public class VaccineScheduler {
                 userInputs[0] = reader.nextInt();
 
                 // ***** ERROR HANDLING - VACCINE *****
+                /*
+                Edit (second submission):
+                Note that this error handling section is dealt with by way of nested if statements
+                because it is required by the assignment. I'm not sure it's better this way.
+                */
 
+                if (!(userInputs[0] >= 1) || !(userInputs[0] <= VACCINES.length)) {
+                    // Quit.
+                    if (userInputs[0] == VACCINES.length + 1) {
+                        break;
+                    }
+    
+                    // Invalid.
+                    if (userInputs[0] < 1 || userInputs[0] > VACCINES.length + 1) {
+                        continue;
+                    }
+                }
+
+                /*
+                First submission:
                 // Quit.
                 if (userInputs[0] == VACCINES.length + 1) {
                     break;
                 }
-
+                
                 // Invalid.
                 if (userInputs[0] < 1 || userInputs[0] > VACCINES.length + 1) {
                     continue;
                 }
+                */
 
                 // Check availability and reject with message if false.
                 if (!VACCINES[userInputs[0] - 1].isAvailableInCanada()) {
@@ -99,6 +119,8 @@ public class VaccineScheduler {
                 // Prompt and storage of location choice.
                 System.out.print(FORMATTED_PROMPT);
                 userInputs[1] = reader.nextInt();
+
+                
 
                 // ***** ERROR HANDLING - LOCATION*****
 
@@ -157,6 +179,27 @@ public class VaccineScheduler {
             // Print vaccine information.
             System.out.print("\nThe booked vaccine is: ");
             VACCINES[userInputs[0] - 1].printBasicInformation();
+
+            // Adjust location entry to match true value of locations array.
+            switch (userInputs[0]) {
+                case 1, 2:
+                    userInputs[1] = userInputs[1] - 1;
+                    break;
+                case 3:
+                    if (userInputs[1] == 2) {
+                        userInputs[1] += 2;
+                    }
+                    if (userInputs[1] == 1) {
+                        userInputs[1] += 1;
+                    }
+                    break;
+                case 4:
+                    userInputs[1] = userInputs[1] + 2;
+                    break;
+                default:
+                    break;
+            }
+            System.out.println(userInputs[1]);
 
             // Print schedule information.
             System.out.println("Your schedule is: " + AVAILABLE_TIMES[userInputs[2] - 1] + " @ " + LOCATIONS[userInputs[1]] + ".");
