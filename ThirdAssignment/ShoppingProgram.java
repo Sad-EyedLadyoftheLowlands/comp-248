@@ -1,22 +1,46 @@
 import java.util.Scanner;
 
+// ------------------------------------------------------------
+// Assignment: 3
+// Written by: Dylan Baird (40046289)
+// For COMP 248 Section (EC 2211) - Summer 2021
+// ------------------------------------------------------------
+
+/*
+A simple program to handle a shopping list. A 2D array stores the quantity and price, and each position
+correlates with the same position in a String array for ease of reference. The output is formatted as a 
+table with format method of System.out. Zero case is handled seperately.
+*/
+
 public class ShoppingProgram {
     public static void main(String[] args) {
 
         Scanner reader = new Scanner(System.in);
-        StringBuilder sb = new StringBuilder();
+
+        // Display header.
+        System.out.println("\\\\-------------------------------------\\\\");
+        System.out.println("\\\\\tItem Shopping Program\t\t\\\\");
+        System.out.println("\\\\---------------------------------------\\\\\n");
 
         // User input, quantity.
-        System.out.println("How many?");
+        System.out.println("How many items do you have?");
         int totalAmount = reader.nextInt();
+
+        // Handle zero case.
+        if (totalAmount == 0) {
+            System.out.println("You have 0 items.\n");
+            System.out.println("Thank you for using the program!");
+            return;
+        }
 
         // Array definition.
         int[][] items = new int[totalAmount][2];
         String[] names = new String[totalAmount];
 
         // User input, items.
+        System.out.println("Please enter items in the following format: name quantity price");
         for (int i = 0; i < totalAmount; i++) {
-            System.out.println("Enter data:");
+            System.out.println("Enter item # " + (i + 1));
 
             names[i] = reader.next();
             items[i][0] = reader.nextInt();
@@ -41,13 +65,12 @@ public class ShoppingProgram {
             total += SUBTOTAL_PRICE;
         }
 
+        // Final output of user entered values.
         System.out.println();
         System.out.format("%40s%10s", "TOTAL QTY", "TOTAL\n");
         final String TOTAL_QTY = "You have " + totalAmount + " items in total.";
         final String TOTAL = "$" + total;
-        System.out.format("%30s%10d%10s", TOTAL_QTY, totalAmount, TOTAL);
+        System.out.format("%40d%10s", totalAmount, TOTAL);
         System.out.println();
-
-        // System.out.println("You have " + totalAmount + " items in total.");
     }    
 }
